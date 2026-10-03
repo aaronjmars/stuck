@@ -1,0 +1,25 @@
+{
+  "name": "stuck",
+  "version": "0.1.0",
+  "scripts": {
+    "check": "./stuck check",
+    "scan": "./stuck scan",
+    "lint": "npx --yes @biomejs/biome lint --only=correctness/noUnusedVariables --only=correctness/noUnusedImports --only=correctness/noUndeclaredVariables *.mjs bridges/*.mjs"
+  },
+  "type": "module",
+  "dependencies": {
+    "@noble/curves": "^1.9.1",
+    "@scure/base": "^1.2.6",
+    "viem": "^2.57.2"
+  },
+  "private": true,
+  "description": "Find unclaimed bridge withdrawals for any EVM wallet (read-only)",
+  "bin": {
+    "stuck": "./stuck.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "author": "Aaron Elijah Mars"
+}

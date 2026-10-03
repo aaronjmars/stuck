@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Runs stuck.mjs. The Alchemy key comes from $ALCHEMY_KEY, or from pass when
+# $ALCHEMY_PASS_ENTRY names an entry. Both can be set in a local .env file.
+set -euo pipefail
+cd "$(dirname "$0")"
+[ -d node_modules ] || npm install --silent
+if [ -f .env ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . ./.env
+  set +a
+fi
+if [ -z "${ALCHEMY_KEY:-}" ] && [ -n "${ALCHEMY_PASS_ENTRY:-}" ]; then
+  ALCHEMY_KEY="$(pass show "$ALCHEMY_PASS_ENTRY")"
+fi
+[ -n "${ALCHEMY_KEY:-}" ] || {
+  echo "set ALCHEMY_KEY (or ALCHEMY_PASS_ENTRY) in the environment or .env" >&2
+  exit 1
+}
+ALCHEMY_KEY="$ALCHEMY_KEY" exec node stuck.mjs "$@"
